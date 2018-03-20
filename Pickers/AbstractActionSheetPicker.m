@@ -481,7 +481,16 @@ CG_INLINE BOOL isIPhone4() {
     if (!self.hideCancel) {
         [barItems addObject:self.cancelBarButtonItem];
     }
-
+    UIBarButtonItem *flexSpace = [self createButtonWithType:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [barItems addObject:flexSpace];
+    
+    if (title) {
+        UIBarButtonItem *labelButton;
+        labelButton = [self createToolbarLabelWithTitle:title titleTextAttributes:self.titleTextAttributes andAttributedTitle:self.attributedTitle];
+        [barItems addObject:labelButton];
+        [barItems addObject:flexSpace];
+    }
+    
     NSInteger index = 0;
     for (NSDictionary *buttonDetails in self.customButtons) {
         NSString *buttonTitle = buttonDetails[kButtonTitle];
@@ -503,15 +512,7 @@ CG_INLINE BOOL isIPhone4() {
         [barItems addObject:button];
         index++;
     }
-
-    UIBarButtonItem *flexSpace = [self createButtonWithType:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [barItems addObject:flexSpace];
-    if (title) {
-        UIBarButtonItem *labelButton;
-
-        labelButton = [self createToolbarLabelWithTitle:title titleTextAttributes:self.titleTextAttributes andAttributedTitle:self.attributedTitle];
-
-        [barItems addObject:labelButton];
+    if (self.customButtons.count > 0) {
         [barItems addObject:flexSpace];
     }
     [barItems addObject:self.doneBarButtonItem];
